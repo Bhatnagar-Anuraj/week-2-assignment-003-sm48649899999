@@ -36,15 +36,7 @@ COMMENT HABITS (practice these throughout the course):
     - Use inline comments sparingly and only when the code is not obvious.
     - Keep comments up to date -- if you change the code, update the comment.
 """
-
-import maya.cmds as cmds
-
-# Clear the scene.
-cmds.file(new=True, force=True)
-
-
-def generate_pattern():
-    """Generate a procedural pattern of objects using nested loops.
+ """Generate a procedural pattern of objects using nested loops.
 
     This function should:
         1. Define variables for rows, columns, and spacing.
@@ -52,38 +44,55 @@ def generate_pattern():
         3. Inside the loop, use a conditional to vary object properties.
         4. Create and position each object.
     """
+
+import maya.cmds as cmds
+
+# Clear the scene
+cmds.file(new=True, force=True)
+
+def generate_pattern():
+
     # --- Configuration variables ---
-    num_rows = 5        # Number of rows in the pattern.
-    num_cols = 5        # Number of columns in the pattern.
-    spacing = 3.0       # Distance between object centers.
-
-    # TODO: Create a nested loop that iterates over rows and columns.
-    #
-    # HINT -- your loop structure should look something like this:
-    #
-    #   for row in range(num_rows):
-    #       for col in range(num_cols):
-    #           # Calculate position
-    #           x_pos = col * spacing
-    #           z_pos = row * spacing
-    #
-    #           # TODO: Add a conditional here that changes something
-    #           # based on row, col, or (row + col).
-    #           # For example:
-    #           #   if (row + col) % 2 == 0:
-    #           #       create a cube
-    #           #   else:
-    #           #       create a sphere
-    #
-    #           # TODO: Create the object using cmds.polyCube(), etc.
-    #
-    #           # TODO: Position the object using cmds.move().
-    #
-    #           # TODO: (Optional) Vary the scale using cmds.scale().
-
-    pass  # Remove this line once you add your code.
+    num_rows = 5
+    num_cols = 5
+    spacing = 3.0
 
 
+    # center grid at origin
+    x_offset = (num_cols - 1) * spacing * 0.5
+    z_offset = (num_rows - 1) * spacing * 0.5
+
+    # make the row/columns of the grid 
+    for row in range(num_rows):
+        for col in range(num_cols):
+
+            # Orginial sizes of cubes/sphere
+            cube_size = 2.0
+            sphere_radius = 0.5
+
+            # second row will be opposite
+            if row == 1:
+                cube_size = 2.5
+                sphere_radius = 1
+                
+            # third row will be the opposite
+            if row == 3:
+                cube_size = 2.5
+                sphere_radius = 1
+
+            # position of each object
+            x_pos = col * spacing - x_offset
+            z_pos = row * spacing - z_offset
+
+            #to make the cubes and sphere alternate in the grid
+            if (row + col) % 2 == 0:
+                obj = cmds.polyCube(width = cube_size, height = cube_size, depth = cube_size)[0]
+            else:
+                obj = cmds.polySphere(radius = sphere_radius)[0]
+                
+            #moving the cubes and sphere into the right positions
+            cmds.move(x_pos, 0, z_pos, obj)
+    
 # ---------------------------------------------------------------------------
 # Run the generator
 # ---------------------------------------------------------------------------
