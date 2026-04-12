@@ -57,7 +57,6 @@ def generate_pattern():
     num_cols = 5
     spacing = 3.0
 
-
     # center grid at origin
     x_offset = (num_cols - 1) * spacing * 0.5
     z_offset = (num_rows - 1) * spacing * 0.5
@@ -92,7 +91,6 @@ def generate_pattern():
                 
             #moving the cubes and sphere into the right positions
             cmds.move(x_pos, 0, z_pos, obj)
-    
 # ---------------------------------------------------------------------------
 # Run the generator
 # ---------------------------------------------------------------------------
