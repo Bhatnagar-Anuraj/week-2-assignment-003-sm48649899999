@@ -44,53 +44,52 @@ COMMENT HABITS (practice these throughout the course):
         3. Inside the loop, use a conditional to vary object properties.
         4. Create and position each object.
     """
-
 import maya.cmds as cmds
 
-# Clear the scene
+# Clear scene
 cmds.file(new=True, force=True)
+
 
 def generate_pattern():
 
-    # --- Configuration variables ---
+    # Grid settings
     num_rows = 5
     num_cols = 5
     spacing = 3.0
 
-    # center grid at origin
+    # Center the grid
     x_offset = (num_cols - 1) * spacing * 0.5
     z_offset = (num_rows - 1) * spacing * 0.5
 
-    # make the row/columns of the grid 
+    # Loop through rows and columns
     for row in range(num_rows):
         for col in range(num_cols):
 
-            # Orginial sizes of cubes/sphere
+            # Default sizes
             cube_size = 2.0
             sphere_radius = 0.5
 
-            # second row will be opposite
-            if row == 1:
+            # Change size based on row
+            if row % 2 == 0:
                 cube_size = 2.5
-                sphere_radius = 1
-                
-            # third row will be the opposite
-            if row == 3:
-                cube_size = 2.5
-                sphere_radius = 1
+                sphere_radius = 1.0
+            else:
+                cube_size = 1.5
+                sphere_radius = 0.5
 
-            # position of each object
+            # Position for each object
             x_pos = col * spacing - x_offset
             z_pos = row * spacing - z_offset
 
-            #to make the cubes and sphere alternate in the grid
+            # Alternate shapes
             if (row + col) % 2 == 0:
-                obj = cmds.polyCube(width = cube_size, height = cube_size, depth = cube_size)[0]
+                obj = cmds.polyCube(width=cube_size, height=cube_size, depth=cube_size)[0]
             else:
-                obj = cmds.polySphere(radius = sphere_radius)[0]
-                
-            #moving the cubes and sphere into the right positions
+                obj = cmds.polySphere(radius=sphere_radius)[0]
+
+            # Move object into place
             cmds.move(x_pos, 0, z_pos, obj)
+
 # ---------------------------------------------------------------------------
 # Run the generator
 # ---------------------------------------------------------------------------
