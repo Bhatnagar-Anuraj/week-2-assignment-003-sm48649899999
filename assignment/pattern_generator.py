@@ -35,41 +35,36 @@ COMMENT HABITS (practice these throughout the course):
     - Add a comment before each logical section explaining its purpose.
     - Use inline comments sparingly and only when the code is not obvious.
     - Keep comments up to date -- if you change the code, update the comment.
-"""
- """Generate a procedural pattern of objects using nested loops.
 
-    This function should:
-        1. Define variables for rows, columns, and spacing.
-        2. Use a nested for-loop to iterate over rows and columns.
-        3. Inside the loop, use a conditional to vary object properties.
-        4. Create and position each object.
-    """
+    
 import maya.cmds as cmds
 
 # Clear scene
 cmds.file(new=True, force=True)
 
+
 def generate_pattern():
+
     # Grid settings
     num_rows = 5
     num_cols = 5
     spacing = 3.0
 
-    # Center grid
+    # Centering offsets
     x_offset = (num_cols - 1) * spacing * 0.5
     z_offset = (num_rows - 1) * spacing * 0.5
 
-    # Nested loop to build grid
+    # Nested loops for grid generation
     for row in range(num_rows):
         for col in range(num_cols):
 
-            # Default values
+            # Default object properties
             cube_size = 2.0
-            sphere_radius = 0.5
-            cylinder_radius = 0.8
+            sphere_radius = 0.8
+            cylinder_radius = 0.7
             cylinder_height = 2.0
 
-            # Change values based on row
+            # Row-based variation
             if row % 2 == 0:
                 cube_size = 2.5
                 sphere_radius = 1.0
@@ -83,7 +78,7 @@ def generate_pattern():
             x_pos = col * spacing - x_offset
             z_pos = row * spacing - z_offset
 
-            # Choose object type
+            # Choose object type based on pattern
             if (row + col) % 3 == 0:
                 obj = cmds.polyCube(width=cube_size, height=cube_size, depth=cube_size)[0]
 
@@ -93,13 +88,14 @@ def generate_pattern():
             else:
                 obj = cmds.polyCylinder(radius=cylinder_radius, height=cylinder_height)[0]
 
-            # Move object
+            # Move object into position
             cmds.move(x_pos, 0, z_pos, obj)
 
 
-# Run generator
+# Run the generator
 generate_pattern()
 
-# Frame view
+# Frame the view in Maya
 cmds.viewFit(allObjects=True)
+
 print("Pattern generated successfully!")
