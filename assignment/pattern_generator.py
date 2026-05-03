@@ -34,7 +34,7 @@ TIPS:
 COMMENT HABITS (practice these throughout the course):
     - Add a comment before each logical section explaining its purpose.
     - Use inline comments sparingly and only when the code is not obvious.
-    - Keep comments up to date -- if you change the code, update the comment.
+    - Keep comments up to date -- if you change the code, update the comment."""
 
     
 import maya.cmds as cmds
