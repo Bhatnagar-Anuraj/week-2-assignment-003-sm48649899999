@@ -57,35 +57,43 @@ def generate_pattern():
     num_cols = 5
     spacing = 3.0
 
-    # Center the grid
+    # Center grid
     x_offset = (num_cols - 1) * spacing * 0.5
     z_offset = (num_rows - 1) * spacing * 0.5
 
-    # Loop through rows and columns
+    # Loop through grid
     for row in range(num_rows):
         for col in range(num_cols):
 
             # Default sizes
             cube_size = 2.0
             sphere_radius = 0.5
+            cylinder_radius = 0.8
+            cylinder_height = 2.0
 
-            # Change size based on row
+            # Change values based on row
             if row % 2 == 0:
                 cube_size = 2.5
                 sphere_radius = 1.0
+                cylinder_height = 3.0
             else:
                 cube_size = 1.5
                 sphere_radius = 0.5
+                cylinder_height = 1.5
 
-            # Position for each object
+            # Position
             x_pos = col * spacing - x_offset
             z_pos = row * spacing - z_offset
 
-            # Alternate shapes
-            if (row + col) % 2 == 0:
+            # Alternate object types (3 different shapes)
+            if (row + col) % 3 == 0:
                 obj = cmds.polyCube(width=cube_size, height=cube_size, depth=cube_size)[0]
-            else:
+
+            elif (row + col) % 3 == 1:
                 obj = cmds.polySphere(radius=sphere_radius)[0]
+
+            else:
+                obj = cmds.polyCylinder(radius=cylinder_radius, height=cylinder_height)[0]
 
             # Move object into place
             cmds.move(x_pos, 0, z_pos, obj)
