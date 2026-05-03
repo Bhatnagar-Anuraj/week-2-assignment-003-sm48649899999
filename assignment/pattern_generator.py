@@ -49,9 +49,7 @@ import maya.cmds as cmds
 # Clear scene
 cmds.file(new=True, force=True)
 
-
 def generate_pattern():
-
     # Grid settings
     num_rows = 5
     num_cols = 5
@@ -61,11 +59,11 @@ def generate_pattern():
     x_offset = (num_cols - 1) * spacing * 0.5
     z_offset = (num_rows - 1) * spacing * 0.5
 
-    # Loop through grid
+    # Nested loop to build grid
     for row in range(num_rows):
         for col in range(num_cols):
 
-            # Default sizes
+            # Default values
             cube_size = 2.0
             sphere_radius = 0.5
             cylinder_radius = 0.8
@@ -81,11 +79,11 @@ def generate_pattern():
                 sphere_radius = 0.5
                 cylinder_height = 1.5
 
-            # Position
+            # Position calculation
             x_pos = col * spacing - x_offset
             z_pos = row * spacing - z_offset
 
-            # Alternate object types (3 different shapes)
+            # Choose object type
             if (row + col) % 3 == 0:
                 obj = cmds.polyCube(width=cube_size, height=cube_size, depth=cube_size)[0]
 
@@ -95,14 +93,13 @@ def generate_pattern():
             else:
                 obj = cmds.polyCylinder(radius=cylinder_radius, height=cylinder_height)[0]
 
-            # Move object into place
+            # Move object
             cmds.move(x_pos, 0, z_pos, obj)
 
-# ---------------------------------------------------------------------------
-# Run the generator
-# ---------------------------------------------------------------------------
+
+# Run generator
 generate_pattern()
 
-# Frame everything in the viewport.
+# Frame view
 cmds.viewFit(allObjects=True)
 print("Pattern generated successfully!")
