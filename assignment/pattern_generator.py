@@ -74,22 +74,30 @@ def generate_pattern():
                 sphere_radius = 0.5
                 cylinder_height = 1.5
 
-            # Position calculation
-            x_pos = col * spacing - x_offset
-            z_pos = row * spacing - z_offset
-
             # Choose object type based on pattern
+            # Alternate patterns cube every 3rd position
             if (row + col) % 3 == 0:
-                obj = cmds.polyCube(width=cube_size, height=cube_size, depth=cube_size)[0]
+                obj = cmds.polyCube(
+                    width=cube_size,
+                    height=cube_size,
+                    depth=cube_size
+                )[0]
 
+            # Second pattern: sphere variation
             elif (row + col) % 3 == 1:
                 obj = cmds.polySphere(radius=sphere_radius)[0]
 
+            # Default: cylinder for remaining positions
             else:
-                obj = cmds.polyCylinder(radius=cylinder_radius, height=cylinder_height)[0]
+                obj = cmds.polyCylinder(
+                    radius=cylinder_radius,
+                    height=cylinder_height
+                )[0]
 
-            # Move object into position
-            cmds.move(x_pos, 0, z_pos, obj)
+            # Position each object in grid
+            x = (col * spacing) - x_offset
+            z = (row * spacing) - z_offset
+            cmds.move(x, 0, z, obj)
 
 
 # Run the generator
